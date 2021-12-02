@@ -2,11 +2,16 @@ import express from "express";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-
+import cors from "cors";
 dotenv.config();
 
 const app = express();
-const PORT = 3003;
+const PORT = 3005;
+app.use(cors());
+// app.use(cors({
+//   orginal: 'http://localhost:3005',
+//   credentials:true,
+// }))
 
 app.use(express.json());
 app.use(cookieParser());
