@@ -3,25 +3,30 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from "cors";
+
 dotenv.config();
 
 const app = express();
-const PORT = 3005;
-app.use(cors());
-// app.use(cors({
-//   orginal: 'http://localhost:3005',
-//   credentials:true,
-// }))
+const PORT = 3003;
+
+app.use(cookieParser());
+app.use(cors(
+	{
+		origin: 'http://localhost:3000',
+		credentials: true
+	}
+));
+
 
 app.use(express.json());
-app.use(cookieParser());
 app.use(
-  session({
-    resave: true,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET || "tempsecret",
-  })
+	session({
+		resave: true,
+		saveUninitialized: true,
+		secret: process.env.SESSION_SECRET || "use-env-secret728272"
+	})
 );
+
 
 const users = [
   {
@@ -70,6 +75,7 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/currentuser", (req, res) => {
+  console.log(req.session.user)
   if (req.session.user) {
     res.json(req.session.user);
   } else {
